@@ -1,0 +1,26 @@
+tasks:
+  - 
+    name: go-test
+    default: true
+    language: Bash
+    code: |
+      set -e
+      cd source/
+      GITHUB_ACTION=true \
+      GORM_DIALECT=mysql \
+      GORM_DSN="gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True" \
+      ./tests/tests_all.sh
+    depends:
+      -
+        name: install-go
+      -
+        name: install-mysql
+  -
+      name: install-go
+      language: Bash
+      code: |
+        sudo apk add go
+  -
+      name: install-mysql
+      plugin: sparkyci-service-mysql
+        
